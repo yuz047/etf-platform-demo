@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Panel, PanelBody, PanelHeader, PanelTitle } from "@/components/ui/panel";
 import { TicketCard } from "@/components/workflow/TicketCard";
 import { getEvidenceMap, getSnapshot } from "@/lib/data";
-import { shortDateTime } from "@/lib/formatting";
+import { formatOwner, shortDateTime } from "@/lib/formatting";
 import type { Status, WorkflowCheckpoint } from "@/lib/types";
 
 export default function WorkflowPage() {
@@ -63,7 +63,7 @@ export default function WorkflowPage() {
                   <tbody>
                     {snapshot.workflow_queues.map((queue) => (
                       <tr className="border-b border-zinc-100" key={queue.owner}>
-                        <td className="px-3 py-2 font-medium text-zinc-950">{queue.owner}</td>
+                        <td className="px-3 py-2 font-medium text-zinc-950">{formatOwner(queue.owner)}</td>
                         <td className="px-3 py-2 text-right tabular-nums">{queue.open_ticket_count}</td>
                         <td className="px-3 py-2 text-right tabular-nums">{queue.red_count}</td>
                         <td className="px-3 py-2 text-right tabular-nums">{queue.yellow_count}</td>
@@ -137,7 +137,7 @@ function CheckpointCard({ checkpoint }: { checkpoint: WorkflowCheckpoint }) {
         <div>
           <div className="font-medium text-zinc-950">{checkpoint.label}</div>
           <div className="mt-1 text-zinc-500">
-            {checkpoint.owner} · {checkpoint.due_at ? shortDateTime(checkpoint.due_at) : "No cutoff"}
+            {formatOwner(checkpoint.owner)} · {checkpoint.due_at ? shortDateTime(checkpoint.due_at) : "No cutoff"}
           </div>
         </div>
         <Badge status={checkpoint.status} />

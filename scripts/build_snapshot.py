@@ -140,6 +140,7 @@ def build_metrics(as_of: str, daily_inputs: pd.DataFrame) -> List[Dict[str, Any]
                 "spread_bps": round(spread, 2),
                 "volume_ratio_20d": round(row["volume"] / row["avg_volume_20d"], 3),
                 "realized_vol_20d_pct": round(row["realized_vol_20d_pct"], 2),
+                "garch_vol_forecast_1d_pct": round(row.get("garch_vol_forecast_1d_pct", row["realized_vol_20d_pct"]), 2),
                 "realized_vol_zscore": round(realized_vol_zscore, 2),
                 "open_ca_count": int(row["open_ca_count"]),
                 "pcf_age_days": int(row["pcf_age_days"]),
@@ -411,7 +412,7 @@ def build_yahoo_time_series(
         for row in frame.to_dict(orient="records"):
             close = float(row["Close"])
             date_value = row["date"]
-            price_nav.append({"date": date_value, "price": round(close, 2), "nav": round(close / nav_multiplier, 2)})
+            price_nav.append({"date": date_value, "price": round(close, 4), "nav": round(close / nav_multiplier, 4)})
             premium.append({"date": date_value, "value": round(premium_discount_bps, 2)})
 
             etf_return = row.get("etf_return")

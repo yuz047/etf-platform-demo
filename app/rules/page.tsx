@@ -3,6 +3,7 @@ import { Panel, PanelBody, PanelHeader, PanelTitle } from "@/components/ui/panel
 import { AppShell } from "@/components/shell/AppShell";
 import { TicketCard } from "@/components/workflow/TicketCard";
 import { getSnapshot } from "@/lib/data";
+import { formatOwner } from "@/lib/formatting";
 
 export default function RulesPage() {
   const snapshot = getSnapshot();
@@ -34,7 +35,7 @@ export default function RulesPage() {
                         <div className="mt-1 text-zinc-500">{rule.label}</div>
                       </td>
                       <td className="px-3 py-2">
-                        <Badge status={rule.severity}>{rule.owner}</Badge>
+                        <Badge status={rule.severity}>{formatOwner(rule.owner)}</Badge>
                       </td>
                       <td className="px-3 py-2 text-zinc-600">{rule.metric}</td>
                       <td className="px-3 py-2 text-zinc-600">{rule.condition}</td>
@@ -71,7 +72,7 @@ export default function RulesPage() {
                         <td className="px-3 py-2 text-zinc-600">{breach.rule_id}</td>
                         <td className="px-3 py-2 text-right tabular-nums">{breach.metric_value}</td>
                         <td className="px-3 py-2">
-                          <Badge status={breach.severity}>{breach.owner}</Badge>
+                          <Badge status={breach.severity}>{formatOwner(breach.owner)}</Badge>
                         </td>
                         <td className="px-3 py-2 text-zinc-600">{breach.evidence_ids.join(", ")}</td>
                       </tr>

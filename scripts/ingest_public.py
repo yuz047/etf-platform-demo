@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any, Dict, Iterable
 
@@ -37,6 +38,40 @@ def load_seed_frames() -> Dict[str, pd.DataFrame]:
     }
 
 
+def garch_11_forecast_vol_pct(returns: pd.Series) -> float:
+    clean = returns.dropna().astype(float)
+    if len(clean) < 30:
+        return float(clean.tail(20).std() * (252**0.5) * 100) if len(clean) > 1 else 0.0
+
+    demeaned = clean - clean.mean()
+    unconditional_var = float(demeaned.var())
+    if pd.isna(unconditional_var) or unconditional_var <= 0:
+        return 0.0
+
+    best_score = float("inf")
+    best_forecast_var = unconditional_var
+    alpha_grid = [0.03, 0.05, 0.08, 0.1, 0.12, 0.15]
+    beta_grid = [0.7, 0.8, 0.85, 0.9, 0.94]
+    observations = demeaned.to_list()
+
+    for alpha in alpha_grid:
+        for beta in beta_grid:
+            if alpha + beta >= 0.995:
+                continue
+            omega = max(unconditional_var * (1 - alpha - beta), 1e-12)
+            variance = unconditional_var
+            score = 0.0
+            for value in observations:
+                variance = max(variance, 1e-12)
+                score += math.log(variance) + (value * value) / variance
+                variance = omega + alpha * value * value + beta * variance
+            if score < best_score:
+                best_score = score
+                best_forecast_var = variance
+
+    return float((best_forecast_var * 252) ** 0.5 * 100)
+
+
 def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, Any]:
     try:
         import yfinance as yf
@@ -52,7 +87,7 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
     for ticker in ticker_list:
         quote = yf.Ticker(ticker)
         metadata = yahoo_metadata(quote, ticker)
-        history = quote.history(period="1mo", interval="1d", auto_adjust=False)
+        history = quote.history(period="1y", interval="1d", auto_adjust=False)
         history = history.dropna(subset=["Close"])
         if len(history) < 2:
             raise RuntimeError(f"Yahoo test source returned fewer than two daily rows for {ticker}.")
@@ -85,8 +120,15 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
         )
         volume = float(latest.get("Volume", 0) or 0)
         avg_volume = float(history["Volume"].tail(20).mean() or 1)
-        returns = history["Close"].pct_change().dropna().tail(20)
-        realized_vol = float(returns.std() * (252 ** 0.5) * 100) if len(returns) > 1 else 0.0
+        returns = history["Close"].pct_change().dropna()
+        recent_returns = returns.tail(20)
+        realized_vol = float(recent_returns.std() * (252 ** 0.5) * 100) if len(recent_returns) > 1 else 0.0
+        rolling_vol = returns.rolling(window=20).std().dropna() * (252 ** 0.5) * 100
+        vol_mean = float(rolling_vol.mean()) if len(rolling_vol) > 1 else realized_vol
+        vol_std = float(rolling_vol.std()) if len(rolling_vol) > 1 else 1.0
+        if pd.isna(vol_std) or vol_std == 0:
+            vol_std = 1.0
+        garch_vol_forecast = garch_11_forecast_vol_pct(returns)
 
         etf_rows.append(
             {
@@ -115,8 +157,9 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
                 "volume": volume,
                 "avg_volume_20d": avg_volume or 1,
                 "realized_vol_20d_pct": realized_vol,
-                "vol_20d_mean_pct": realized_vol,
-                "vol_20d_std_pct": 1.0,
+                "garch_vol_forecast_1d_pct": garch_vol_forecast,
+                "vol_20d_mean_pct": vol_mean,
+                "vol_20d_std_pct": vol_std,
                 "open_ca_count": 0,
                 "pcf_age_days": 0,
                 "missing_critical_fields": missing_critical_fields,
@@ -133,7 +176,7 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
                 {
                     "id": "evt_yahoo_test_limitations",
                     "event_type": "data_quality",
-                    "title": "Yahoo Finance test feed uses close/ohlc proxies only",
+                    "title": "Yahoo Finance test feed uses one-year close/volume history",
                     "entity_name": "Yahoo Finance via yfinance",
                     "entity_id": "YAHOO_FINANCE_TEST",
                     "impacted_tickers": "|".join([ticker.upper() for ticker in tickers]),
@@ -153,7 +196,7 @@ def source_warnings(source: str = "seed") -> list[str]:
     if source == "yahoo_test":
         return [
             "Yahoo Finance test feed via yfinance. Local testing only; confirm Yahoo terms before any redistribution.",
-            "Yahoo Finance charts use one-month close/volume history; ETF NAV history, PCF, and bid-ask history remain proxy fields.",
+            "Yahoo Finance charts and GARCH forecasts use one-year close/volume history; ETF NAV history, PCF, and bid-ask history remain proxy fields.",
         ]
     return [
         "HK public event feed unavailable; using seed fixture.",

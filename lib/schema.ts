@@ -38,6 +38,7 @@ export const metricSchema = z.object({
   spread_bps: z.number().nullable(),
   volume_ratio_20d: z.number().nullable(),
   realized_vol_20d_pct: z.number().nullable(),
+  garch_vol_forecast_1d_pct: z.number().nullable(),
   realized_vol_zscore: z.number().nullable(),
   open_ca_count: z.number(),
   pcf_age_days: z.number().nullable(),

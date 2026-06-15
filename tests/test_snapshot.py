@@ -6,7 +6,7 @@ import pandas as pd
 
 import scripts.build_snapshot as build_snapshot_module
 from scripts.build_snapshot import build_metrics, build_snapshot, write_outputs
-from scripts.ingest_public import load_seed_frames
+from scripts.ingest_public import garch_11_forecast_vol_pct, load_seed_frames
 from scripts.run_rules import condition_matches, load_rules, make_tickets
 from scripts.schemas import Snapshot
 
@@ -23,6 +23,12 @@ def test_rule_trigger_logic() -> None:
     assert condition_matches(82, "abs(value) > threshold", 75)
     assert condition_matches(0.42, "value < threshold", 0.5)
     assert not condition_matches(None, "value > threshold", 0)
+
+
+def test_garch_forecast_responds_to_recent_volatility() -> None:
+    calm = pd.Series([0.001, -0.001] * 80)
+    stressed = pd.Series(([0.001, -0.001] * 60) + ([0.04, -0.035] * 20))
+    assert garch_11_forecast_vol_pct(stressed) > garch_11_forecast_vol_pct(calm)
 
 
 def test_snapshot_schema_and_health_examples() -> None:

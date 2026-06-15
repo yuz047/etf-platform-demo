@@ -72,6 +72,7 @@ class ETFMetric(BaseModel):
     spread_bps: Optional[float]
     volume_ratio_20d: Optional[float]
     realized_vol_20d_pct: Optional[float]
+    garch_vol_forecast_1d_pct: Optional[float]
     realized_vol_zscore: Optional[float]
     open_ca_count: int
     pcf_age_days: Optional[int]

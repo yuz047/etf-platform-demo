@@ -12,7 +12,7 @@ import { AppShell } from "@/components/shell/AppShell";
 import { RuleBreachTimeline } from "@/components/workflow/RuleBreachTimeline";
 import { TicketCard } from "@/components/workflow/TicketCard";
 import { getEtfOrThrow, getEtfRows, getEvidenceMap, getSnapshot } from "@/lib/data";
-import { formatBps, formatNumber, formatPct } from "@/lib/formatting";
+import { formatBps, formatMultiple, formatPct } from "@/lib/formatting";
 
 export function generateStaticParams() {
   return getEtfRows(getSnapshot()).map((row) => ({ ticker: row.ticker }));
@@ -39,13 +39,14 @@ export default async function ETFDetailPage({ params }: { params: Promise<{ tick
     <AppShell snapshot={snapshot}>
       <div className="space-y-4 p-4">
         <ETFHeader row={row} />
-        <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+        <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-7">
           <MetricCard label="ETF return" value={formatPct(row.metric.etf_return_pct)} />
           <MetricCard label="Benchmark" value={formatPct(row.metric.benchmark_return_pct)} />
           <MetricCard label="Tracking" value={formatBps(row.metric.tracking_diff_bps)} />
           <MetricCard label="Premium/Discount" value={formatBps(row.metric.premium_discount_bps)} />
           <MetricCard label="Spread" value={formatBps(row.metric.spread_bps)} />
-          <MetricCard label="Volume vs 20d" value={`${formatNumber(row.metric.volume_ratio_20d, 2)}x`} />
+          <MetricCard label="Volume vs 20d" value={formatMultiple(row.metric.volume_ratio_20d)} />
+          <MetricCard label="GARCH forecast" value={formatPct(row.metric.garch_vol_forecast_1d_pct)} />
         </div>
         <Panel>
           <PanelHeader>

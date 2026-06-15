@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Panel, PanelBody, PanelHeader, PanelTitle } from "@/components/ui/panel";
 import { RuleBreachTimeline } from "@/components/workflow/RuleBreachTimeline";
 import { TicketCard } from "@/components/workflow/TicketCard";
-import { formatBps, formatNumber, formatPct } from "@/lib/formatting";
+import { formatBps, formatMultiple, formatPct } from "@/lib/formatting";
 import type { ETFRow, Evidence, Snapshot } from "@/lib/types";
 import { EvidenceTable } from "./EvidenceTable";
 
@@ -57,7 +57,8 @@ export function ETFDetailDrawer({
                 <span>Tracking {formatBps(row.metric.tracking_diff_bps)}</span>
                 <span>P/D {formatBps(row.metric.premium_discount_bps)}</span>
                 <span>Spread {formatBps(row.metric.spread_bps)}</span>
-                <span>Volume {formatNumber(row.metric.volume_ratio_20d, 2)}x</span>
+                <span>Volume {formatMultiple(row.metric.volume_ratio_20d)}</span>
+                <span>GARCH {formatPct(row.metric.garch_vol_forecast_1d_pct)}</span>
               </div>
             </PanelBody>
           </Panel>

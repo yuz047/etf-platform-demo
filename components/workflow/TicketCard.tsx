@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatOwner } from "@/lib/formatting";
 import type { Ticket } from "@/lib/types";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
@@ -10,7 +11,7 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
       </div>
       <p className="mt-2 leading-5 text-zinc-600">{ticket.suggested_action}</p>
       <div className="mt-2 text-zinc-500">
-        {ticket.owner} · {ticket.due_at ?? "No due time"} · {ticket.evidence_ids.join(", ")}
+        {formatOwner(ticket.owner)} · {ticket.due_at ?? "No due time"} · {ticket.evidence_ids.join(", ")}
       </div>
     </div>
   );
