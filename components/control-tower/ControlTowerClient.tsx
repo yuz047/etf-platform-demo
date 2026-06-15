@@ -11,6 +11,7 @@ import { EventInboxPreview } from "./EventInboxPreview";
 import { HealthKpiCards } from "./HealthKpiCards";
 import { SourceModeBanner } from "./SourceModeBanner";
 import { TicketQueue } from "./TicketQueue";
+import { VolatilityForecastPanel } from "./VolatilityForecastPanel";
 
 type Filter = "All" | "Red/Yellow" | "Semiconductors" | "US" | "HK" | "CN" | "Open Tickets" | "Data Gaps" | "Corporate Actions";
 const filters: Filter[] = ["All", "Red/Yellow", "Semiconductors", "US", "HK", "CN", "Open Tickets", "Data Gaps", "Corporate Actions"];
@@ -66,6 +67,7 @@ export function ControlTowerClient({
       <div className="min-w-0 flex-1 space-y-4 p-4">
         <HealthKpiCards snapshot={snapshot} />
         <SourceModeBanner snapshot={snapshot} />
+        <VolatilityForecastPanel rows={rows} />
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex h-8 min-w-72 items-center gap-2 rounded-md border border-zinc-200 bg-white px-2 text-xs text-zinc-500">
             <Search className="h-3.5 w-3.5" />
