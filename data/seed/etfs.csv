@@ -1,0 +1,10 @@
+ticker,name,region,currency,asset_class,benchmark_proxy,aum_millions,expense_ratio_bps,source_tag
+US_DEMO_1,US Equity ETF Demo,US,USD,equity,US_BENCHMARK_PROXY,12500,9,mock_seed
+US_DEMO_2,US Treasury ETF Demo,US,USD,fixed_income,US_TREASURY_PROXY,8400,12,mock_seed
+US_DEMO_3,US Sector ETF Demo,US,USD,equity,US_SECTOR_PROXY,3920,15,mock_seed
+HK_DEMO_1,Hong Kong Equity ETF Demo,HK,HKD,equity,HK_BENCHMARK_PROXY,6800,18,mock_seed
+HK_DEMO_2,Hong Kong Tech ETF Demo,HK,HKD,equity,HK_TECH_PROXY,2120,25,mock_seed
+HK_DEMO_3,Hong Kong Bond ETF Demo,HK,HKD,fixed_income,HK_BOND_PROXY,1750,20,mock_seed
+CN_DEMO_1,China A Shares ETF Demo,CN,CNY,equity,CN_A_PROXY,5340,22,mock_seed
+CN_DEMO_2,China Dividend ETF Demo,CN,CNY,equity,CN_DIVIDEND_PROXY,2860,19,mock_seed
+CN_DEMO_3,China Bond ETF Demo,CN,CNY,fixed_income,CN_BOND_PROXY,4180,10,mock_seed

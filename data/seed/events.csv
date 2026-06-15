@@ -1,0 +1,4 @@
+id,event_type,title,entity_name,entity_id,impacted_tickers,exposure_pct,severity,rule_ids,suggested_workflow,evidence_id,source_tag
+evt_cn_ca_001,corporate_action,Demo corporate-action event pending review,Demo Holding A,DEMO_HOLDING_A,CN_DEMO_1,3.2,red,CORPORATE_ACTION_UNRESOLVED,Ops should verify event treatment and PCF impact before publication cut-off.,evd_evt_cn_ca_001,mock_seed
+evt_hk_delay_001,data_delay,HK public event feed unavailable; using seed fixture,HK public event feed,HK_PUBLIC_EVENT_FEED,HK_DEMO_2,,grey,DATA_QUALITY_GAP,Data should inspect source freshness and mark the limitation in the snapshot.,evd_evt_hk_delay_001,mock_seed
+evt_us_confirm_001,issuer_announcement,Issuer classification confirmation pending,Demo Issuer,DEMO_ISSUER,US_DEMO_2,0.0,blue,,PM should confirm issuer classification metadata before next demo refresh.,evd_evt_us_confirm_001,mock_seed

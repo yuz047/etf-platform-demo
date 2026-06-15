@@ -1,0 +1,90 @@
+rules:
+  - id: TRACKING_DIFF_WARN
+    label: Tracking difference warning
+    description: Absolute ETF-vs-benchmark tracking difference exceeds warning threshold.
+    metric: tracking_diff_bps
+    condition: abs(value) > threshold
+    threshold: 50
+    severity: yellow
+    owner: PM
+    suggested_action: Review performance attribution and check cash, fee, FX, dividend, sampling, and corporate-action effects.
+
+  - id: TRACKING_DIFF_RED
+    label: Tracking difference action required
+    description: Absolute ETF-vs-benchmark tracking difference exceeds action threshold.
+    metric: tracking_diff_bps
+    condition: abs(value) > threshold
+    threshold: 100
+    severity: red
+    owner: PM
+    suggested_action: Escalate to PM review and confirm whether operational or market microstructure issues explain the gap.
+
+  - id: PREMIUM_DISCOUNT_WARN
+    label: Premium/discount warning
+    description: ETF premium/discount exceeds internal warning threshold.
+    metric: premium_discount_bps
+    condition: abs(value) > threshold
+    threshold: 75
+    severity: yellow
+    owner: Capital Markets
+    suggested_action: Review underlying market status, NAV timestamp, AP activity, spread, and quote quality.
+
+  - id: SPREAD_WIDE
+    label: Spread widened
+    description: Bid-ask spread exceeds internal warning threshold.
+    metric: spread_bps
+    condition: value > threshold
+    threshold: 30
+    severity: yellow
+    owner: Capital Markets
+    suggested_action: Check market-maker quote quality, underlying liquidity, and recent flows.
+
+  - id: VOLUME_LOW
+    label: Low ETF volume
+    description: ETF volume ratio vs 20-day average is below warning threshold.
+    metric: volume_ratio_20d
+    condition: value < threshold
+    threshold: 0.5
+    severity: yellow
+    owner: Capital Markets
+    suggested_action: Review secondary-market liquidity and recent investor flow context.
+
+  - id: VOLATILITY_HIGH
+    label: High realized volatility
+    description: Realized volatility z-score exceeds warning threshold.
+    metric: realized_vol_zscore
+    condition: value > threshold
+    threshold: 2.0
+    severity: yellow
+    owner: Risk
+    suggested_action: Review market regime, exposure concentration, and stress indicators.
+
+  - id: CORPORATE_ACTION_UNRESOLVED
+    label: Corporate action unresolved
+    description: At least one corporate-action event affecting ETF holdings is unresolved.
+    metric: open_ca_count
+    condition: value > threshold
+    threshold: 0
+    severity: red
+    owner: Ops
+    suggested_action: Confirm event treatment, index treatment, NAV impact, and PCF/basket impact.
+
+  - id: PCF_STALE
+    label: PCF stale
+    description: PCF age is greater than zero days.
+    metric: pcf_age_days
+    condition: value > threshold
+    threshold: 0
+    severity: red
+    owner: Ops
+    suggested_action: Verify PCF publication status and resolve stale basket issue.
+
+  - id: DATA_QUALITY_GAP
+    label: Data-quality gap
+    description: Critical fields are missing or stale.
+    metric: missing_critical_fields
+    condition: value > threshold
+    threshold: 0
+    severity: grey
+    owner: Data
+    suggested_action: Inspect source registry, refresh snapshot, or mark source limitation.
