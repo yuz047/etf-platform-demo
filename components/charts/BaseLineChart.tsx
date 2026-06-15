@@ -6,11 +6,12 @@ import { Panel, PanelBody, PanelHeader, PanelTitle } from "@/components/ui/panel
 
 type BaseLineChartProps = {
   title: string;
+  tag?: string;
   data: Record<string, string | number | null | undefined>[];
   lines: { key: string; color: string }[];
 };
 
-export function BaseLineChart({ title, data, lines }: BaseLineChartProps) {
+export function BaseLineChart({ title, tag, data, lines }: BaseLineChartProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export function BaseLineChart({ title, data, lines }: BaseLineChartProps) {
     <Panel>
       <PanelHeader>
         <PanelTitle>{title}</PanelTitle>
+        {tag ? <span className="rounded-md border border-zinc-200 bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-700">{tag}</span> : null}
       </PanelHeader>
       <PanelBody className="h-56 p-2">
         {mounted ? (
