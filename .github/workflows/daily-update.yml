@@ -5,12 +5,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # After CN/HK market close, Monday-Friday.
+    # Weekday static snapshot refresh. GitHub cron schedules run in UTC.
     - cron: "15 18 * * 1-5"
-      timezone: "Asia/Hong_Kong"
-    # After US market close, Monday-Friday.
-    - cron: "30 18 * * 1-5"
-      timezone: "America/New_York"
 
 permissions:
   contents: write
@@ -40,7 +36,7 @@ jobs:
 
       - name: Build daily ETF snapshot
         run: |
-          python scripts/build_snapshot.py --as-of today --output public/data
+          python scripts/build_snapshot.py --as-of today --output public/data --source yahoo_test
 
       - name: Commit updated snapshots
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
