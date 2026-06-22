@@ -24,7 +24,7 @@ export function Badge({
   return (
     <Chip
       className={cn(
-        "h-6 max-w-full rounded-md border border-transparent px-2 text-xs font-medium",
+        "h-6 min-w-0 max-w-full rounded-md border border-transparent px-2 text-xs font-medium",
         !status && "bg-zinc-100 text-zinc-700",
         className
       )}
@@ -32,7 +32,7 @@ export function Badge({
       size="sm"
       variant="soft"
     >
-      {children ?? (status ? statusLabel[status] : null)}
+      <span className="min-w-0 max-w-full truncate">{children ?? (status ? statusLabel[status] : null)}</span>
     </Chip>
   );
 }

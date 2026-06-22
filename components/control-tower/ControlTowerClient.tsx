@@ -29,7 +29,7 @@ export function ControlTowerClient({
   const [filter, setFilter] = useState<Filter>("All");
   const [search, setSearch] = useState("");
   const [selectedTicker, setSelectedTicker] = useState(rows[0]?.ticker ?? "");
-  const [drawerOpen, setDrawerOpen] = useState(Boolean(rows[0]));
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -108,9 +108,15 @@ export function ControlTowerClient({
         <CopilotPanel evidence={copilotEvidence} summary={copilot} />
       </div>
       {drawerOpen && selectedRow ? (
-        <div className="hidden shrink-0 py-4 pr-4 xl:block">
-          <ETFDetailDrawer evidence={selectedEvidence} onClose={() => setDrawerOpen(false)} row={selectedRow} snapshot={snapshot} />
-        </div>
+        <>
+          <div aria-hidden="true" className="fixed inset-0 z-30 bg-zinc-950/10 2xl:hidden" onClick={() => setDrawerOpen(false)} />
+          <div className="fixed bottom-4 right-4 top-[72px] z-40 w-[min(460px,calc(100vw-2rem))] 2xl:hidden">
+            <ETFDetailDrawer evidence={selectedEvidence} onClose={() => setDrawerOpen(false)} row={selectedRow} snapshot={snapshot} />
+          </div>
+          <div className="hidden w-[520px] shrink-0 py-4 pr-4 2xl:block">
+            <ETFDetailDrawer evidence={selectedEvidence} onClose={() => setDrawerOpen(false)} row={selectedRow} snapshot={snapshot} />
+          </div>
+        </>
       ) : null}
     </div>
   );
