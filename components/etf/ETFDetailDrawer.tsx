@@ -25,7 +25,7 @@ export function ETFDetailDrawer({
   const series = snapshot.time_series[row.ticker];
 
   return (
-    <aside className="sticky top-[72px] max-h-[calc(100vh-88px)] w-[520px] overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-zinc-200/70">
+    <aside className="sticky top-[72px] max-h-[calc(100vh-88px)] w-[460px] overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-zinc-200/70 2xl:w-[520px]">
       <div className="max-h-[calc(100vh-88px)] overflow-y-auto">
         <div className="flex items-start justify-between gap-4 border-b border-zinc-100 bg-white/95 p-4">
           <div>
@@ -51,7 +51,7 @@ export function ETFDetailDrawer({
             </PanelHeader>
             <PanelBody className="grid gap-3 text-sm">
               <div className="font-medium text-zinc-950">{row.metric.primary_reason}</div>
-              <div className="grid grid-cols-2 gap-2 text-xs text-zinc-600">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(138px,1fr))] gap-2 text-xs text-zinc-600">
                 <span>Return {formatPct(row.metric.etf_return_pct)}</span>
                 <span>Benchmark {formatPct(row.metric.benchmark_return_pct)}</span>
                 <span>Tracking {formatBps(row.metric.tracking_diff_bps)}</span>
@@ -63,7 +63,7 @@ export function ETFDetailDrawer({
             </PanelBody>
           </Panel>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-2">
             {pillars.map((pillar) => (
               <div className="rounded-md bg-zinc-50 p-3 ring-1 ring-zinc-200/70" key={pillar.pillar}>
                 <div className="flex items-center justify-between gap-2">

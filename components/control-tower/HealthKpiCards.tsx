@@ -13,13 +13,13 @@ export function HealthKpiCards({ snapshot }: { snapshot: Snapshot }) {
   ];
 
   return (
-    <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(136px,1fr))] gap-3">
       {kpis.map((kpi) => (
         <Panel key={kpi.label}>
           <PanelBody className="space-y-2 p-3">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs text-zinc-500">{kpi.label}</span>
-              <Badge status={kpi.status} />
+            <div className="flex min-w-0 flex-wrap items-start justify-between gap-2">
+              <span className="min-w-0 text-xs leading-4 text-zinc-500">{kpi.label}</span>
+              <Badge className="shrink-0" status={kpi.status} />
             </div>
             <div className="text-2xl font-semibold tabular-nums">{kpi.value}</div>
           </PanelBody>

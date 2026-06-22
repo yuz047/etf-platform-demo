@@ -36,9 +36,9 @@ export function VolatilityForecastPanel({ rows }: { rows: ETFRow[] }) {
         <PanelTitle>Volatility Forecast</PanelTitle>
         <span className="text-xs text-zinc-500">GARCH(1,1) annualized next-session estimate</span>
       </PanelHeader>
-      <PanelBody className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
+      <PanelBody className="grid gap-4 2xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
         <div className="min-w-0">
-          <div className="mb-3 grid gap-2 text-xs md:grid-cols-3">
+          <div className="mb-3 grid grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-2 text-xs">
             <Summary label="Max forecast" value={formatPct(maxForecast)} />
             <Summary label="Median forecast" value={formatPct(medianForecast)} />
             <Summary label="High vol z" value={`${highZCount} ETFs`} />
