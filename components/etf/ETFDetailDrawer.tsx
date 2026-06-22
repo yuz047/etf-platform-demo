@@ -25,9 +25,9 @@ export function ETFDetailDrawer({
   const series = snapshot.time_series[row.ticker];
 
   return (
-    <aside className="w-full max-w-[520px] bg-white shadow-[inset_1px_0_0_rgba(228,228,231,0.75)]">
-      <div className="sticky top-14 max-h-[calc(100vh-56px)] overflow-y-auto">
-        <div className="flex items-start justify-between gap-4 border-b border-zinc-100 p-4">
+    <aside className="sticky top-[72px] max-h-[calc(100vh-88px)] w-[520px] overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-zinc-200/70">
+      <div className="max-h-[calc(100vh-88px)] overflow-y-auto">
+        <div className="flex items-start justify-between gap-4 border-b border-zinc-100 bg-white/95 p-4">
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-semibold">{row.ticker}</h2>

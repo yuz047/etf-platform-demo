@@ -37,7 +37,7 @@ export default async function ETFDetailPage({ params }: { params: Promise<{ tick
 
   return (
     <AppShell snapshot={snapshot}>
-      <div className="space-y-4 p-4">
+      <div className="mx-4 space-y-4 py-4">
         <ETFHeader row={row} />
         <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-7">
           <MetricCard label="ETF return" value={formatPct(row.metric.etf_return_pct)} />

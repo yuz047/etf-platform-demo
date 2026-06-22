@@ -108,7 +108,7 @@ export function ControlTowerClient({
         <CopilotPanel evidence={copilotEvidence} summary={copilot} />
       </div>
       {drawerOpen && selectedRow ? (
-        <div className="hidden xl:block">
+        <div className="hidden shrink-0 py-4 pr-4 xl:block">
           <ETFDetailDrawer evidence={selectedEvidence} onClose={() => setDrawerOpen(false)} row={selectedRow} snapshot={snapshot} />
         </div>
       ) : null}
