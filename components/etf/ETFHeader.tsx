@@ -4,7 +4,7 @@ import type { ETFRow } from "@/lib/types";
 
 export function ETFHeader({ row }: { row: ETFRow }) {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-3 border border-zinc-200 bg-white p-4">
+    <div className="flex flex-wrap items-start justify-between gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-zinc-200/70">
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-semibold">{row.ticker}</h1>

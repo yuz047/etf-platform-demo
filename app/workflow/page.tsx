@@ -132,7 +132,7 @@ function Summary({ label, value, status }: { label: string; value: number; statu
 
 function CheckpointCard({ checkpoint }: { checkpoint: WorkflowCheckpoint }) {
   return (
-    <div className="border border-zinc-200 bg-zinc-50 p-3 text-xs">
+    <div className="rounded-md bg-zinc-50 p-3 text-xs ring-1 ring-zinc-200/70">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="font-medium text-zinc-950">{checkpoint.label}</div>

@@ -96,7 +96,7 @@ export function VolatilityForecastPanel({ rows }: { rows: ETFRow[] }) {
 
 function Summary({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border border-zinc-200 bg-zinc-50 p-2">
+    <div className="rounded-md bg-zinc-50 p-2 ring-1 ring-zinc-200/70">
       <div className="text-zinc-500">{label}</div>
       <div className="mt-1 font-semibold tabular-nums text-zinc-950">{value}</div>
     </div>

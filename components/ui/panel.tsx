@@ -4,7 +4,11 @@ import { cn } from "@/lib/utils";
 
 export function Panel({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <Card className={cn("rounded-md border border-zinc-200 bg-white shadow-none", className)} variant="default" {...props}>
+    <Card
+      className={cn("rounded-lg border-0 bg-white shadow-sm ring-1 ring-zinc-200/70", className)}
+      variant="default"
+      {...props}
+    >
       {children}
     </Card>
   );
@@ -13,7 +17,7 @@ export function Panel({ className, children, ...props }: HTMLAttributes<HTMLDivE
 export function PanelHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <Card.Header
-      className={cn("flex min-h-11 items-center justify-between gap-3 border-b border-zinc-200 px-4", className)}
+      className={cn("flex min-h-11 items-center justify-between gap-3 border-b border-zinc-100 px-4", className)}
       {...props}
     />
   );

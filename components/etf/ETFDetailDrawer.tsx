@@ -25,9 +25,9 @@ export function ETFDetailDrawer({
   const series = snapshot.time_series[row.ticker];
 
   return (
-    <aside className="w-full max-w-[520px] border-l border-zinc-200 bg-white">
+    <aside className="w-full max-w-[520px] bg-white shadow-[inset_1px_0_0_rgba(228,228,231,0.75)]">
       <div className="sticky top-14 max-h-[calc(100vh-56px)] overflow-y-auto">
-        <div className="flex items-start justify-between gap-4 border-b border-zinc-200 p-4">
+        <div className="flex items-start justify-between gap-4 border-b border-zinc-100 p-4">
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-semibold">{row.ticker}</h2>
@@ -65,7 +65,7 @@ export function ETFDetailDrawer({
 
           <div className="grid grid-cols-2 gap-2">
             {pillars.map((pillar) => (
-              <div className="border border-zinc-200 bg-zinc-50 p-3" key={pillar.pillar}>
+              <div className="rounded-md bg-zinc-50 p-3 ring-1 ring-zinc-200/70" key={pillar.pillar}>
                 <div className="flex items-center justify-between gap-2">
                   <div className="text-xs font-medium text-zinc-700">{pillar.label}</div>
                   <Badge status={pillar.status}>{pillar.score}</Badge>

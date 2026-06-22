@@ -54,7 +54,7 @@ export default async function ETFDetailPage({ params }: { params: Promise<{ tick
           </PanelHeader>
           <PanelBody className="grid gap-2 md:grid-cols-3 xl:grid-cols-6">
             {pillars.map((pillar) => (
-              <div className="border border-zinc-200 bg-zinc-50 p-3" key={pillar.pillar}>
+              <div className="rounded-md bg-zinc-50 p-3 ring-1 ring-zinc-200/70" key={pillar.pillar}>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-medium">{pillar.label}</span>
                   <Badge status={pillar.status}>{pillar.score}</Badge>

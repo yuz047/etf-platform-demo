@@ -70,7 +70,7 @@ export function ControlTowerClient({
         <SourceModeBanner snapshot={snapshot} />
         <VolatilityForecastPanel rows={rows} />
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex h-8 min-w-72 items-center gap-2 rounded-md border border-zinc-200 bg-white px-2 text-xs text-zinc-500">
+          <div className="flex h-8 min-w-72 items-center gap-2 rounded-md bg-white px-2 text-xs text-zinc-500 shadow-sm ring-1 ring-zinc-200/70">
             <Search className="h-3.5 w-3.5" />
             <Input
               className="h-7 min-w-0 flex-1 border-0 bg-transparent px-0 text-xs text-zinc-900 shadow-none"

@@ -4,7 +4,7 @@ import type { Ticket } from "@/lib/types";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
-    <div className="border border-zinc-200 bg-zinc-50 p-3 text-xs">
+    <div className="rounded-md bg-zinc-50 p-3 text-xs ring-1 ring-zinc-200/70">
       <div className="flex items-center justify-between gap-2">
         <span className="font-medium text-zinc-950">{ticket.title}</span>
         <Badge status={ticket.severity}>{ticket.status}</Badge>

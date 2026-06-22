@@ -6,14 +6,14 @@ import { TopCommandBar } from "./TopCommandBar";
 
 export function AppShell({ snapshot, children }: { snapshot: Snapshot; children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-zinc-100 text-zinc-950">
+    <div className="min-h-screen bg-[#f6f7f9] text-zinc-950">
       <TopCommandBar snapshot={snapshot} />
       <div className="flex min-h-[calc(100vh-56px)]">
         <SideNav />
         <main className="min-w-0 flex-1">
           <StatusStrip snapshot={snapshot} />
           {children}
-          <footer className="border-t border-zinc-200 bg-white px-4 py-3 text-xs leading-5 text-zinc-500">
+          <footer className="border-t border-zinc-200/70 bg-white/80 px-4 py-3 text-xs leading-5 text-zinc-500">
             {snapshot.data_disclaimer}
           </footer>
         </main>

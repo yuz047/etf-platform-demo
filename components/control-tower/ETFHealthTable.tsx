@@ -151,9 +151,9 @@ export function ETFHealthTable({
   });
 
   return (
-    <div className="overflow-x-auto border border-zinc-200 bg-white">
+    <div className="overflow-x-auto rounded-lg bg-white shadow-sm ring-1 ring-zinc-200/70">
       <table className="w-full min-w-[1420px] border-collapse text-left text-xs">
-        <thead className="sticky top-0 bg-zinc-50 text-[11px] uppercase tracking-wide text-zinc-500">
+        <thead className="sticky top-0 bg-zinc-50/90 text-[11px] uppercase tracking-wide text-zinc-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

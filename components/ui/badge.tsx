@@ -24,8 +24,8 @@ export function Badge({
   return (
     <Chip
       className={cn(
-        "h-6 max-w-full rounded-md border px-2 text-xs font-medium",
-        !status && "border-zinc-200 bg-white text-zinc-700",
+        "h-6 max-w-full rounded-md border border-transparent px-2 text-xs font-medium",
+        !status && "bg-zinc-100 text-zinc-700",
         className
       )}
       color={status ? statusColor[status] : "default"}
