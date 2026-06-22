@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Badge } from "@/components/ui/badge";
 import { Panel, PanelBody, PanelHeader, PanelTitle } from "@/components/ui/panel";
 
 type BaseLineChartProps = {
@@ -22,7 +23,7 @@ export function BaseLineChart({ title, tag, data, lines }: BaseLineChartProps) {
     <Panel>
       <PanelHeader>
         <PanelTitle>{title}</PanelTitle>
-        {tag ? <span className="rounded-md border border-zinc-200 bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-700">{tag}</span> : null}
+        {tag ? <Badge>{tag}</Badge> : null}
       </PanelHeader>
       <PanelBody className="h-56 p-2">
         {mounted ? (

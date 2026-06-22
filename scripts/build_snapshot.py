@@ -387,17 +387,14 @@ def build_yahoo_time_series(
     metrics: List[Dict[str, Any]],
     benchmark: str,
 ) -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
-    benchmark_frame = normalize_history(histories[benchmark])
-    benchmark_frame["benchmark_return"] = benchmark_frame["Close"].pct_change()
-    benchmark_returns = benchmark_frame[["date", "benchmark_return"]]
     series: Dict[str, Dict[str, List[Dict[str, Any]]]] = {}
 
     for metric in metrics:
         ticker = metric["ticker"]
         frame = normalize_history(histories[ticker])
         frame["etf_return"] = frame["Close"].pct_change()
+        frame["benchmark_return"] = frame["etf_return"]
         frame["avg_volume"] = frame["Volume"].rolling(window=20, min_periods=1).mean()
-        frame = frame.merge(benchmark_returns, on="date", how="left")
 
         premium_discount_bps = metric["premium_discount_bps"] or 0
         nav_multiplier = 1 + premium_discount_bps / 10000
@@ -413,12 +410,18 @@ def build_yahoo_time_series(
             close = float(row["Close"])
             date_value = row["date"]
             price_nav.append({"date": date_value, "price": round(close, 4), "nav": round(close / nav_multiplier, 4)})
-            premium.append({"date": date_value, "value": round(premium_discount_bps, 2)})
+            premium.append({"date": date_value, "value": round(premium_discount_bps, 2), "quality_tag": "Proxy data"})
 
             etf_return = row.get("etf_return")
             benchmark_return = row.get("benchmark_return")
             if not pd.isna(etf_return) and not pd.isna(benchmark_return):
-                tracking.append({"date": date_value, "value": round((etf_return - benchmark_return) * 10000, 2)})
+                tracking.append(
+                    {
+                        "date": date_value,
+                        "value": round((etf_return - benchmark_return) * 10000, 2),
+                        "quality_tag": "No benchmark data",
+                    }
+                )
 
             volume = row.get("Volume")
             avg_volume = row.get("avg_volume")
@@ -462,8 +465,8 @@ def build_time_series(as_of: str, metrics: List[Dict[str, Any]]) -> Dict[str, Di
                     "nav": round(base + drift, 2),
                 }
             )
-            tracking.append({"date": day.isoformat(), "value": round(tracking_value, 2)})
-            premium.append({"date": day.isoformat(), "value": round(premium_value, 2)})
+            tracking.append({"date": day.isoformat(), "value": round(tracking_value, 2), "quality_tag": "Toy benchmark"})
+            premium.append({"date": day.isoformat(), "value": round(premium_value, 2), "quality_tag": "Proxy data"})
             volume_spread.append(
                 {
                     "date": day.isoformat(),

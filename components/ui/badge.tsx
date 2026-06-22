@@ -1,7 +1,16 @@
 import type { ReactNode } from "react";
+import { Chip, type ChipProps } from "@heroui/react";
 import type { Status } from "@/lib/types";
-import { statusClass, statusLabel } from "@/lib/health";
+import { statusLabel } from "@/lib/health";
 import { cn } from "@/lib/utils";
+
+const statusColor: Record<Status, ChipProps["color"]> = {
+  blue: "accent",
+  green: "success",
+  grey: "default",
+  red: "danger",
+  yellow: "warning"
+};
 
 export function Badge({
   status,
@@ -13,14 +22,17 @@ export function Badge({
   className?: string;
 }) {
   return (
-    <span
+    <Chip
       className={cn(
-        "inline-flex h-6 max-w-full items-center rounded-md border px-2 text-xs font-medium",
-        status ? statusClass[status] : "border-zinc-200 bg-white text-zinc-700",
+        "h-6 max-w-full rounded-md border px-2 text-xs font-medium",
+        !status && "border-zinc-200 bg-white text-zinc-700",
         className
       )}
+      color={status ? statusColor[status] : "default"}
+      size="sm"
+      variant="soft"
     >
       {children ?? (status ? statusLabel[status] : null)}
-    </span>
+    </Chip>
   );
 }

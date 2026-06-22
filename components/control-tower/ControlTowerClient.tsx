@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Input } from "@heroui/react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CopilotPanel } from "@/components/copilot/CopilotPanel";
@@ -71,12 +72,15 @@ export function ControlTowerClient({
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex h-8 min-w-72 items-center gap-2 rounded-md border border-zinc-200 bg-white px-2 text-xs text-zinc-500">
             <Search className="h-3.5 w-3.5" />
-            <input
-              className="min-w-0 flex-1 bg-transparent text-zinc-900 outline-none"
+            <Input
+              className="h-7 min-w-0 flex-1 border-0 bg-transparent px-0 text-xs text-zinc-900 shadow-none"
+              fullWidth
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search ETF, region, reason"
               ref={searchRef}
+              type="search"
               value={search}
+              variant="secondary"
             />
           </div>
           {filters.map((item) => (

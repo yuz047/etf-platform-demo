@@ -184,6 +184,7 @@ class SeriesPoint(BaseModel):
     value: Optional[float] = None
     volume_ratio: Optional[float] = None
     spread_bps: Optional[float] = None
+    quality_tag: Optional[str] = None
 
 
 class TickerTimeSeries(BaseModel):

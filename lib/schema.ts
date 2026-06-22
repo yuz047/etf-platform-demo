@@ -149,7 +149,8 @@ export const seriesPointSchema = z.object({
   nav: z.number().nullable().optional(),
   value: z.number().nullable().optional(),
   volume_ratio: z.number().nullable().optional(),
-  spread_bps: z.number().nullable().optional()
+  spread_bps: z.number().nullable().optional(),
+  quality_tag: z.string().nullable().optional()
 });
 
 export const tickerTimeSeriesSchema = z.object({

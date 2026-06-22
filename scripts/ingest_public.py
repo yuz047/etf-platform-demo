@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from datetime import date
 from pathlib import Path
 from typing import Any, Dict, Iterable
 
@@ -80,8 +81,6 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
 
     ticker_list = [ticker.upper() for ticker in tickers]
     benchmark = benchmark.upper()
-    if benchmark not in ticker_list:
-        ticker_list.append(benchmark)
 
     histories = {}
     for ticker in ticker_list:
@@ -93,18 +92,17 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
             raise RuntimeError(f"Yahoo test source returned fewer than two daily rows for {ticker}.")
         histories[ticker] = {"history": history, "metadata": metadata}
 
-    benchmark_history = histories[benchmark]["history"]
-    benchmark_prior = float(benchmark_history["Close"].iloc[-2])
-    benchmark_latest = float(benchmark_history["Close"].iloc[-1])
     etf_rows = []
     input_rows = []
 
     for ticker in ticker_list:
-        if ticker == benchmark and benchmark not in [item.upper() for item in tickers]:
-            continue
         history = histories[ticker]["history"]
-        latest = history.iloc[-1]
-        prior = history.iloc[-2]
+        metric_history = history
+        latest_date = pd.Timestamp(history.index[-1]).date()
+        if latest_date >= date.today() and len(history) > 2:
+            metric_history = history.iloc[:-1]
+        latest = metric_history.iloc[-1]
+        prior = metric_history.iloc[-2]
         close = float(latest["Close"])
         metadata = histories[ticker]["metadata"]
         nav = float(metadata["nav"] or close)
@@ -119,8 +117,8 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
             ]
         )
         volume = float(latest.get("Volume", 0) or 0)
-        avg_volume = float(history["Volume"].tail(20).mean() or 1)
-        returns = history["Close"].pct_change().dropna()
+        avg_volume = float(metric_history["Volume"].tail(20).mean() or 1)
+        returns = metric_history["Close"].pct_change().dropna()
         recent_returns = returns.tail(20)
         realized_vol = float(recent_returns.std() * (252 ** 0.5) * 100) if len(recent_returns) > 1 else 0.0
         rolling_vol = returns.rolling(window=20).std().dropna() * (252 ** 0.5) * 100
@@ -137,7 +135,7 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
                 "region": "US",
                 "currency": "USD",
                 "asset_class": metadata["asset_class"],
-                "benchmark_proxy": benchmark,
+                "benchmark_proxy": "Self proxy (no official benchmark data)",
                 "aum_millions": metadata["aum_millions"],
                 "expense_ratio_bps": metadata["expense_ratio_bps"],
                 "source_tag": "unknown_license",
@@ -150,8 +148,8 @@ def load_yahoo_test_frames(tickers: Iterable[str], benchmark: str) -> Dict[str, 
                 "price": close,
                 "prior_nav": float(prior["Close"]),
                 "nav": nav,
-                "prior_benchmark": benchmark_prior,
-                "benchmark": benchmark_latest,
+                "prior_benchmark": float(prior["Close"]),
+                "benchmark": close,
                 "bid": bid,
                 "ask": ask,
                 "volume": volume,
@@ -196,7 +194,8 @@ def source_warnings(source: str = "seed") -> list[str]:
     if source == "yahoo_test":
         return [
             "Yahoo Finance test feed via yfinance. Local testing only; confirm Yahoo terms before any redistribution.",
-            "Yahoo Finance charts and GARCH forecasts use one-year close/volume history; ETF NAV history, PCF, and bid-ask history remain proxy fields.",
+            "Yahoo Finance charts and GARCH forecasts use one-year close/volume history; ETF NAV history, PCF, bid-ask history, and official benchmark history remain proxy fields.",
+            "When Yahoo includes a current-date partial bar, daily control metrics use the prior completed daily bar to avoid false low-volume alerts.",
         ]
     return [
         "HK public event feed unavailable; using seed fixture.",

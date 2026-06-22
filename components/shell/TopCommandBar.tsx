@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import type { Snapshot } from "@/lib/types";
 import { shortDateTime } from "@/lib/formatting";
 
@@ -18,7 +19,7 @@ export function TopCommandBar({ snapshot }: { snapshot: Snapshot }) {
       <div className="flex items-center gap-3 text-xs text-zinc-600">
         <span>As of {snapshot.as_of}</span>
         <span className="hidden lg:inline">{shortDateTime(snapshot.generated_at)}</span>
-        <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 uppercase">{snapshot.environment}</span>
+        <Badge>{snapshot.environment.toUpperCase()}</Badge>
       </div>
     </header>
   );
