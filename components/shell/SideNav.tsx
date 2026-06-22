@@ -19,7 +19,7 @@ export function SideNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden w-52 shrink-0 bg-zinc-50/80 px-3 py-4 shadow-[inset_-1px_0_0_rgba(228,228,231,0.7)] md:block">
+    <nav className="sticky top-[72px] mt-4 hidden h-fit w-52 shrink-0 rounded-lg bg-white/90 p-2 shadow-sm ring-1 ring-zinc-200/70 md:block">
       <div className="space-y-1.5">
         {navItems.map((item) => {
           const Icon = icons[item.label as keyof typeof icons];
@@ -27,8 +27,8 @@ export function SideNav() {
           return (
             <Link
               className={cn(
-                "flex h-9 items-center gap-2 rounded-md px-2.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-white/80 hover:text-zinc-950",
-                active && "bg-white text-zinc-950 shadow-sm ring-1 ring-zinc-200/70"
+                "flex h-9 items-center gap-2 rounded-md px-2.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-950",
+                active && "bg-blue-50 text-zinc-950 ring-1 ring-blue-100"
               )}
               href={item.href}
               key={item.href}

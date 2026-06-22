@@ -16,7 +16,7 @@ export function StatusStrip({ snapshot }: { snapshot: Snapshot }) {
   });
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200/70 bg-white/70 px-4 py-2 text-xs text-zinc-600">
+    <div className="mx-4 flex flex-wrap items-center gap-2 rounded-lg bg-white/85 px-4 py-2 text-xs text-zinc-600 shadow-sm ring-1 ring-zinc-200/70">
       {regions.map((item) => (
         <Badge key={item.region} status={item.status}>
           {item.region} {item.label}
