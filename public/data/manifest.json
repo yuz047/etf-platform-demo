@@ -1,15 +1,15 @@
 {
-  "latest_as_of": "2026-06-22",
+  "latest_as_of": "2026-06-23",
   "latest_path": "/data/latest.json",
-  "generated_at": "2026-06-22T22:30:00Z",
+  "generated_at": "2026-06-23T22:30:00Z",
   "available_snapshots": [
     {
-      "as_of": "2026-06-22",
-      "path": "/data/snapshots/2026-06-22.json",
-      "generated_at": "2026-06-22T22:30:00Z",
+      "as_of": "2026-06-23",
+      "path": "/data/snapshots/2026-06-23.json",
+      "generated_at": "2026-06-23T22:30:00Z",
       "source_warning_count": 3,
       "etf_count": 35,
-      "ticket_count": 27
+      "ticket_count": 22
     }
   ]
 }
